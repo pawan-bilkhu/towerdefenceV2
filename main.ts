@@ -21,31 +21,34 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 // Barrel Generation for tower
 function generateBarrel (barrelType: number, targetSprite: Sprite, shootingSprite: Sprite, length: number, steps: number) {
-    for (let sprite of spriteutils.getSpritesWithin(SpriteKind.Barrel, length*steps, shootingSprite)){
-        sprites.destroy(sprite)
-    }
-    if (targetSprite != shootingSprite) {
-        for (let index = 1; index <= length; index++) {
-            barrelSprite = sprites.create(barrelSpriteObject["Image"][barrelType], SpriteKind.Barrel)
-            barrelSprite.setPosition(shootingSprite.x, shootingSprite.y)
-            spriteutils.placeAngleFrom(
-            barrelSprite,
-            spriteutils.angleFrom(shootingSprite, targetSprite),
-            index*steps,
-            shootingSprite
-            )
-            barrelSprite.z = 15
-            //barrelSprite.lifespan = lifespan
-        }
-    } else {
-        for (let index = 1; index <= length; index++) {
-            barrelSprite = sprites.create(barrelSpriteObject["Image"][barrelType], SpriteKind.Barrel)
-            barrelSprite.setPosition(shootingSprite.x, shootingSprite.y - (index*steps))
-            barrelSprite.z = 15
-            //barrelSprite.lifespan = lifespan
-        }
+    // for (let sprite of spriteutils.getSpritesWithin(SpriteKind.Barrel, length*steps, shootingSprite)){
+    //     sprites.destroy(sprite)
+    // }
+    // particles.clearAll()
+    let particleSource = particles.createParticleSource(shootingSprite, 50)
+    shootingSprite.say(particleSource.anchor)
+    
+    // particleSource.setFactory(new particles.TrailFactory(shootingSprite, 500, 1000))
+    for (let index = 1; index <= length; index++) {
+        // let singleParticle = new particles.Particle()
+        // let particleLineFactory = new particles.ParticleFactory()
+        // particleLineFactory.createParticle()
+        
+
+        // barrelSprite = sprites.create(barrelSpriteObject["Image"][barrelType], SpriteKind.Barrel)
+        // barrelSprite.setPosition(shootingSprite.x, shootingSprite.y)
+        // spriteutils.placeAngleFrom(
+        // barrelSprite,
+        // spriteutils.angleFrom(shootingSprite, targetSprite),
+        // index*steps,
+        // shootingSprite
+        // )
+        // barrelSprite.z = 15
     }
 }
+
+// Generating a barrel for the sprite using a picture
+
 // Placing a Tower Sprite
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (tiles.tileAtLocationEquals(playerSprite.tilemapLocation(), assets.tile`transparency16`) && emptyTile) {
@@ -316,7 +319,7 @@ currentTileIndicatorSprite = sprites.create(img`
     `, SpriteKind.Indicator)
 displayTilePlacementIndicator(0)
 currentTileIndicatorSprite.setFlag(SpriteFlag.Invisible, true)
-scene.setBackgroundColor(1)
+scene.setBackgroundColor(2)
 tiles.setCurrentTilemap(tilemap`level1`)
 generatePlayer()
 setPlayerTileMapPosition()
